@@ -11,6 +11,8 @@
 <meta property="og:title" content="Kozmetički Salon MAXIMA | Salon Lepote Stara Pazova">
 <meta property="og:description" content="Ekskluzivni tretmani lica i tela, pedikir, limfna drenaža i estetika u Staroj Pazovi.">
 <meta property="og:image" content="https://barnakmilinka.github.io/maxima/og-image.jpg">
+<meta property="og:image:secure_url" content="https://barnakmilinka.github.io/maxima/og-image.jpg">
+<meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:type" content="website">
@@ -324,6 +326,10 @@
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
       </a>
     </div>
+    <button onClick="{{ share }}" style="display:inline-flex;align-items:center;gap:10px;background:#B76E79;border:none;color:#FFFCFA;padding:14px 30px;border-radius:999px;font-family:'Jost',sans-serif;font-size:15px;font-weight:500;cursor:pointer;box-shadow:0 8px 22px rgba(183,110,121,0.35);transition:all .25s;" style-hover="background:#C98692;transform:translateY(-2px);">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
+      Podeli sajt
+    </button>
     <p style="font-size:13px;font-weight:300;margin:0;color:#8A7C75;">Slovenski trg, lokal 10, Stara Pazova · 063/211-835</p>
   </footer>
 
@@ -463,8 +469,18 @@ class Component extends DCLogic {
 
     const catOp = data.map((_, i) => (i === active ? 1 : 0));
 
+    const share = async () => {
+      const url = "https://barnakmilinka.github.io/maxima/";
+      const shareData = { title: "Kozmetički Salon MAXIMA", text: "Oaza lepote i nega — Salon MAXIMA, Stara Pazova", url };
+      if (navigator.share) {
+        try { await navigator.share(shareData); } catch (e) {}
+      } else {
+        window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent(shareData.text + " " + url), "_blank", "noopener");
+      }
+    };
+
     return {
-      booking, wa, tel,
+      booking, wa, tel, share,
       categories,
       current: data[active],
       cenGridStyle,
